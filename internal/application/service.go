@@ -2,7 +2,6 @@ package application
 
 import (
 	"context"
-	"sort"
 	"time"
 
 	"github.com/google/uuid"
@@ -62,8 +61,13 @@ func (s *Service) Replay(ctx context.Context, after int64) ([]domain.Event, erro
 	if err != nil {
 		return nil, err
 	}
-	sort.Slice(events, func(i, j int) bool { return events[i].ID < events[j].ID })
-	return events, nil
+	out := events[:0]
+	for _, event := range events {
+		if !domain.IsTerminal(event.State) {
+			out = append(out, event)
+		}
+	}
+	return out, nil
 
 }
 
