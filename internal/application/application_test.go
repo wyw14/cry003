@@ -17,7 +17,7 @@ import (
 	httptransport "github.com/wyw14/cry003/internal/transport/http"
 )
 
-func TestTestScanPathStaysWithinRoot(t *testing.T) {
+func TestScanPathStaysWithinRoot(t *testing.T) {
 	repo := memory.New()
 	svc := application.New(repo)
 	_, _ = svc.Create(context.Background(), "alpha", "owner-a", "a", "visible")
@@ -38,7 +38,7 @@ func TestTestScanPathStaysWithinRoot(t *testing.T) {
 	}
 }
 
-func TestTestOnlyOneScanExecution(t *testing.T) {
+func TestOnlyOneScanExecution(t *testing.T) {
 	repo := memory.New()
 	svc := application.New(repo)
 	const workers = 24
@@ -77,7 +77,7 @@ func TestTestOnlyOneScanExecution(t *testing.T) {
 	}
 }
 
-func TestTestReplayKeepsTerminalProgress(t *testing.T) {
+func TestReplayKeepsTerminalProgress(t *testing.T) {
 	repo := memory.New()
 	svc := application.New(repo)
 	_ = svc.RecordEvent(context.Background(), "x", "running", 1)
@@ -92,7 +92,7 @@ func TestTestReplayKeepsTerminalProgress(t *testing.T) {
 	}
 }
 
-func TestTestCanceledScanStopsBeforePersist(t *testing.T) {
+func TestCanceledScanStopsBeforePersist(t *testing.T) {
 	repo := memory.New()
 	svc := application.New(repo)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -106,7 +106,7 @@ func TestTestCanceledScanStopsBeforePersist(t *testing.T) {
 	}
 }
 
-func TestTestFailedScanCommitKeepsQueuedState(t *testing.T) {
+func TestFailedScanCommitKeepsQueuedState(t *testing.T) {
 	repo := memory.New()
 	svc := application.New(repo)
 	before, _ := repo.Snapshot(context.Background())
