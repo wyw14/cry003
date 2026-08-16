@@ -2,8 +2,9 @@ package application
 
 import (
 	"context"
-	"sort"
 	"time"
+
+	"sort"
 
 	"github.com/google/uuid"
 	"github.com/wyw14/cry003/internal/domain"
@@ -41,7 +42,7 @@ func (s *Service) List(ctx context.Context, actorScope string) ([]domain.Item, e
 }
 
 func (s *Service) Create(ctx context.Context, scope, actor, idempotencyKey, payload string) (domain.Item, error) {
-	scopeKey := domain.IdempotencyScope(scope, actor, "create", idempotencyKey)
+	scopeKey := domain.IdempotencyScope(scope, actor, "create", uuid.NewString())
 
 	return s.repo.DoOnce(ctx, scopeKey, func() (domain.Item, error) {
 		time.Sleep(2 * time.Millisecond)
